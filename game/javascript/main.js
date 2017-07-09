@@ -8,9 +8,9 @@ function startGame() {
     });
 
     function preload() {
-        game.load.image('space', 'assets/skies/deep-space.jpg');
-        game.load.image('bullet', 'game/graphics/bullets.png');
-        game.load.image('ship', 'game/graphics/ship.png');
+        game.load.image('space', 'assets/skies/deep-sp ace.jpg');
+        game.load.image('bullet', 'game/graphics/bu llets.png');
+        game.load.image('ship', 'game/graphics/shi p.png');
     }
     var cursors;
     var balls;
