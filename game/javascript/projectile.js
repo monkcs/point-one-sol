@@ -54,11 +54,11 @@ function projectile(type, maxNumber) {
 
     }
     /* Fire a shot */
-    this.fire = function () {
+    this.fire = function () { 
         if (this._game.time.now > this.shotTime) {
             this.shot = this.shots.getFirstExists(false);
             if (this.shot) {
-                this.shot.reset(this._ship.body.x + 16, this._ship.body.y + 16);
+                this.shot.reset(this._ship.body.x, this._ship.body.y);
                 this.shot.lifespan = 5000;
                 this.shot.rotation = this._ship.rotation;
                 this._game.physics.arcade.velocityFromRotation(this._ship.rotation, 650, this.shot.body.velocity);

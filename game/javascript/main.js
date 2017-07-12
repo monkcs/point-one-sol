@@ -8,13 +8,13 @@ function startGame() {
     });
 
     function preload() {
-        game.load.image('space', 'assets/skies/deep-sp ace.jpg');
-        game.load.image('bullet', 'game/graphics/bu llets.png');
-        game.load.image('ship', 'game/graphics/shi p.png');
+        game.load.image('space', 'game/graphics/background/notch.png');
+        game.load.image('bullet', 'game/graphics/bullets.png');
+        game.load.image('ship', 'game/graphics/ship.png');
+        game.load.image('asteroid', 'game/graphics/background/g39.png');
     }
     var cursors;
-    var balls;
-
+    var asteroids = new asteroid();
 
     function create() {
         //  This will run in Canvas mode, so let's gain a little speed and display
@@ -26,22 +26,15 @@ function startGame() {
         game.physics.p2.defaultRestitution = 0.9;
 
         //  A spacey background
-        game.add.tileSprite(500, 500, game.width, game.height, 'space');
-        //game.add.tileSprite(0, 0, 100000, 100000, 'space');
-        game.world.setBounds(0, 0, 1000, 1000);
+        //game.add.tileSprite(0, 0, game.width, game.height, 'space');
+        game.add.tileSprite(0, 0, 4096, 2160, 'space');
+        game.world.setBounds(0, 0, 10000, 10000);
 
+        asteroids.create(game);
         //  Our player ship
         player.create(game);
-
-            balls = game.add.group();
-    balls.enableBody = true;
-    balls.physicsBodyType = Phaser.Physics.P2JS;
-
-    for (var i = 0; i < 50; i++)
-    {
-        var ball = balls.create(game.world.randomX, game.world.randomY, 'ball');
-        ball.body.setCircle(16);
-    }
+        player.ship.body.damping = 0.3;
+        
 
         /* Game input */
         cursors = game.input.keyboard.createCursorKeys();
@@ -51,31 +44,29 @@ function startGame() {
     }
 
     function update() {
-        //player.ship.body.setZeroVelocity();
+        
 
         if (cursors.left.isDown) {
             //player.ship.body.angularVelocity = -3;
-            player.ship.body.rotateLeft(80);
+            player.ship.body.rotateLeft(40);
         } else if (cursors.right.isDown) {
-            player.ship.body.rotateRight(80);
+            player.ship.body.rotateRight(40);
         } else {
             player.ship.body.setZeroRotation();
         }
 
         if (cursors.up.isDown) {
-            player.ship.body.thrust(400);
+            player.ship.body.thrust(1800);
         } else if (cursors.down.isDown) {
             player.ship.body.reverse(0);
+        }
+        else {
+           // player.ship.body.setZeroVelocity();
         }
 
         if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             player.fire();
         }
-
-        //screenWrap(player.ship);
-
-        //bullets.forEachExists(screenWrap, this);
-        //render();
     }
 
     function screenWrap(sprite) {
@@ -95,7 +86,11 @@ function startGame() {
     }
 
     function render() {
-        game.debug.spriteBounds(player.ship);
+        // game.debug.spriteBounds(player.ship);
     }
-
 }
+    function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+    }
